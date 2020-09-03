@@ -1,0 +1,300 @@
+
+ Refer : https://documentation.tricentis.com/tosca/1300/en/content/standard_subset/automation_tools/windows_operations.htm
+ ICON Refrence : https://documentation.tricentis.com/tosca/1300/en/content/tosca_commander/icons.htm
+ Menu in TOSCA :https://documentation.tricentis.com/tosca/1300/en/content/tosca_commander/user_interface.htm
+ *******************************Basic Windows Operations********************************************
+
+1) TBox Take Screenshot
+   This Module takes a screenshot of the currently active screen.
+    TestStep-->TBox Take Screenshot
+               Environment:
+               Directory  :
+               Filename   :
+  
+2) TBox Dialog steers dialog windows.
+    
+   TestStep-->TBox Dialog
+    Caption:Caption of the dialog window that we want to steer.This caption identifies the dialog window.
+    Label  :we can enter the text of the dialog window’s first paragraph for further identification.
+    Button :Specify which button Tricentis Tosca should click to confirm the dialog.Enter the text of the button.
+ 
+3) TBox Send Keys
+   This Module sends keyboard commands to a window.
+    
+    TestStep-->TBox Send Keys
+      Caption:Caption of the window that we want to steer.
+      Keys   :Keyboard command that we want to send to the window.
+
+    Few keyboard commands:
+    Ctrl + A --> ^(a)    :Sends the command Select all to the window.
+    Del      --> "{DEL}" :Sends the command Delete to the window.
+    Ctrl + S --> ^(s)    :Sends the command Save to the window.
+    Alt + F4 --> %"{F4}" :Sends the command Close window to the window.
+
+
+**************************************TBox Automation Tools->Buffer Operations**********************************
+1) TBox Set Buffer
+   Create a Buffer with a particular value.
+   Verify the value of an existing Buffer.
+   
+    TestStep--->TBOX Set Buffer
+      ExampleBuffer : 12345 --->Action(input)
+      ExampleBuffer : 12345 --->Action(verify)
+  
+    Syntax for Buffer value: {B[ExampleBuffer]} --> Value will be stored as 12345
+
+**************************************TBox Automation Tools->Expression Evaluation**********************************
+1) Expression Evaluation
+   This Module allows you to perform comparisons.The results of these comparisons are either TRUE or FALSE.
+   The folder TBox Automation Tools->Expression Evaluation in the Standard subset contains the Module TBox 
+   Evaluation Tool.
+  
+    TestStep--->TBOX Evaluation tool
+    Expression:{B[A]}>100 -->Action(Verify)
+    Expression:{B[A]}>100 && {B[A]}<200-->Action(Verify)
+    Expression:'{B[CurrMonth]}'!='May' -->Action(Verify)
+
+    TBox Evaluation Tool Module uses the NCalc library.
+
+**************************************TBox Automation Tools->TBox Wait**********************************
+1)Timing 
+  TBox Automation Tools->Timing in the Standard subset contains the following Modules:
+  TBox Start Timer and TBox Stop Timer
+  
+  TestStep --->TBox Wait
+    Duration : 5000 --->(Action-Input)-->DataType(Numeric)
+
+
+************************************Table Concept How to Access cell value of table********************************
+Refer : https://documentation.tricentis.com/en/1110/content/tbox/type_table.htm
+----------------------------------Table------------------------------------------------
+1)The following ActionModes can be used to steer columns, rows and cells in tables:
+   ActionMode          Value                        Description
+   Input               <value>                       Entering a value
+   Verify              <value>,<property>            Verifying a value or a property
+   Constraint          <value>                       This restricts the search
+   Buffer              <buffer name>                 Buffering the value of a cell
+
+2) How to select table ,table row and table value.
+   Use the Action Mode Select to select the table.
+     Table(Select)
+       Row(Select)
+         Cell-->Value --->Action Mode(Verify,Input)
+
+      eg. Table (Select)
+            row1 (Select)
+                 $1 --->Click(X)--->(Input)(Clicks on cell value of Table row1 cell1 value.
+
+3) Property                         Description
+   ColumnCount                      Number of columns in the table
+   RowCount                         Number of rows in the table
+                                          
+4) Table attribute                  
+   <Row> 
+   Row name: The available names are defined via the header.
+   $1      : This steers the first row of the table
+   $last   : This steers the last row of the table
+   $header : this steers a cell in the table header
+ 
+   <Col>
+   Column name:The available names are defined via the header. 
+   $1         : This steers the first column of the table.
+   $last      : This steers the last column of the table
+                           
+   <Cell> 
+   $1             : this steers the first cell of the table.
+   $last          : this steers the last cell of the row or column
+   $header        : this steers a cell in the table header
+   $lastContentRow: this steers the last table row which includes a value.
+   $firstEmptyRow : this steers the first table row which does not include a value.
+
+
+************************************Action Mode for Input and Reading Operation*********************************
+Refer:https://documentation.tricentis.com/tosca/1320/en/content/tbox/action_modes.htm
+
+1)
+ActionModes for input operations:
+Input  : The ActionMode Input can be used to transfer values to the test object.
+It is used in case of taking value for attribute(edit box),Checkbox,Ok(button)->Click(X)->Action Mode(Input).
+Insert
+
+ActionModes for reading operations:
+Buffer        :If input values are needed more than once, they can be buffered using the ActionMode Buffer.
+
+Constraint    :The ActionMode Constraint limits the search for a superordinate node
+Example:-
+Table (select)
+  Row1(select)
+     First Name : Peter(Value) : Constraint(Action Mode)
+     Last Name  : Smith(Value) : Constraint(Action Mode)
+     DOB        : 02/09/2020    : Verify    (Action Mode)
+Here,it verifies for particular constraint DOB.
+
+Verify        :ActionMode Verify allows values and control properties in test objects to be verified.
+
+WaitOn        :The system waits until the control value matches the value specified in the Value column.
+Eg.(While Uploding the file, While restarting the system.)
+In this example the system waits until the value of the control Progressbar has reached 100%. 
+The Restart button is clicked as soon as this value is reached.
+Teststep--->( Progressing 100%)
+          Progressbar : Value(100%)        :WaitOn(Action Mode)
+          OK(Restart) : Vaue (Click or (X)):Input (Action Mode)
+
+
+Select        :ActionMode Select allows you to select specified nodes.
+
+************************************Keyboard Command and Click Operation ************************************
+Refer :https://documentation.tricentis.com/tosca/1320/en/content/tbox/click_operations.htm
+
+Clear   :{CLEAR}
+Delete  :{DEL}    ------>{SendKeys["{DEL}"]}  --------->Action Mode(Input)
+Enter   :{ENTER}
+Capslock:{CAPSLOCK}
+Select all -->{SendKeys["^{a}"]}
+click   : {CLICK}
+{DRAG}  :This selects the object to be repositioned.The object in question must support drag and drop operations.
+{DROP}  :This inserts an object that was previously selected with {DRAG}.
+
+************************************Test Expression *************************************************************
+a)Buffer:Values or control properties can be saved to a global variable buffer to be read at any point 
+of the test execution.
+
+Syntax:{B[Buffername]}
+
+b) 
+XBuffer:The XBuffer can be used for reading out and buffering dynamic parts of a string.
+Syntax:{XB[<Buffername>]}
+
+c)
+Test configuration parameters:During execution,TestCases mostly differ only by their specified values or other
+environment information.
+Specific values can be the following: 
+Test object versionssuch as release numbers.
+Identifiers of various test environments e.g. Windows 7
+connection identifiers (URLs, parameters)
+
+Syntax : {CP[Testconfigurationparameter]}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+     
+
+
+
+
+
+
+
+
+
+
+
+
+    
