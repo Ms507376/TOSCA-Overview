@@ -8,8 +8,7 @@
  TBox Dialog
  TBox Send Keys
  TBox Window Operation
-
-TBox Save as
+ TBox Save as
 
 1) TBox Take Screenshot
    This Module takes a screenshot of the currently active screen.
@@ -48,8 +47,9 @@ TBox Save as
     
     Few commands which is used for window operation:
     Maximize, Minimize, wait on Close,wait on open, Verify window exists ( This command we can send in opaertion ).
-  
- 
+    
+    
+
     
 
 
