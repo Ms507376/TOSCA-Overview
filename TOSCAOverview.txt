@@ -3,6 +3,13 @@
  ICON Refrence : https://documentation.tricentis.com/tosca/1300/en/content/tosca_commander/icons.htm
  Menu in TOSCA :https://documentation.tricentis.com/tosca/1300/en/content/tosca_commander/user_interface.htm
  *******************************Basic Windows Operations********************************************
+ TBox Take Screenshot
+ TBox Clipboard
+ TBox Dialog
+ TBox Send Keys
+ TBox Window Operation
+
+TBox Save as
 
 1) TBox Take Screenshot
    This Module takes a screenshot of the currently active screen.
@@ -30,6 +37,20 @@
     Del      --> "{DEL}" :Sends the command Delete to the window.
     Ctrl + S --> ^(s)    :Sends the command Save to the window.
     Alt + F4 --> %"{F4}" :Sends the command Close window to the window.
+    
+ 4) window operation
+    we can use the Module TBox Window Operation to send specific commands to a window. It contains the following ModuleAttribute.
+   
+   Test step--> TBOX window operation
+    Caption     :login* ( Caption of window which we want to steer)
+    Window index:2       ( Index of window)
+    operation   :Close   (Closes the specified window.)
+    
+    Few commands which is used for window operation:
+    Maximize, Minimize, wait on Close,wait on open, Verify window exists ( This command we can send in opaertion ).
+  
+ 
+    
 
 
 **************************************TBox Automation Tools->Buffer Operations**********************************
